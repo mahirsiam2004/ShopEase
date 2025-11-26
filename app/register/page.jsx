@@ -1,4 +1,4 @@
-// app/register/page.js
+
 'use client';
 
 import { useState } from 'react';
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       <Toaster position="top-center" />
 
       {/* Gradient Background */}
-      <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center px-4 py-16">
+      <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center px-4 py-16 text-gray-700">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,17 +157,17 @@ export default function RegisterPage() {
               </div>
 
               {/* Divider */}
-              <div className="relative my-8">
+              {/* <div className="relative my-8">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-6 bg-white/95 text-gray-500 font-medium">Or register with Google</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Google Sign In */}
-              <motion.button
+              {/* <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="button"
@@ -181,7 +181,7 @@ export default function RegisterPage() {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.02 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
                 Continue with Google
-              </motion.button>
+              </motion.button> */}
 
               {/* Create Account Button */}
               <motion.button

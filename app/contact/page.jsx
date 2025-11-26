@@ -1,4 +1,4 @@
-// app/contact/page.js
+
 'use client';
 
 import { useState } from 'react';
@@ -105,7 +105,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 text-gray-700">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-12">
 
