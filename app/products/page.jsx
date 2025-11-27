@@ -76,10 +76,10 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="container mx-auto px-4 py-12 max-w-7xl text-black">
         {/* Search + Filter */}
         <div className="mb-10 flex flex-col sm:flex-row gap-4">
-          <div className="flex-1 relative">
+          <div className="flex-1 relative text-black">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
             <input
               type="text"
