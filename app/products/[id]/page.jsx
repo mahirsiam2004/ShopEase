@@ -121,7 +121,7 @@ export default function ProductDetailPage({ params }) {
               Buy Now
             </button>
           </div>
-
+{/* information */}
           <div className="mt-8 p-6 bg-gray-50 rounded-lg">
             <h3 className="font-semibold mb-2">Product Information</h3>
             <ul className="space-y-2 text-gray-600">
