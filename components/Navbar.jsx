@@ -1,203 +1,200 @@
+// frontend/components/Navbar.js - UPDATED WITH CART
 'use client';
-
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { 
-  Menu, X, User, LogOut, Package, PlusCircle 
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, User, ShoppingBag, ShoppingCart } from 'lucide-react';
+import { useCart } from '@/lib/ CartContext';
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { data: session } = useSession();
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
 
-  const fullName = session?.user?.name || "Guest";
-
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 120 }}
-      className="
-        fixed top-0 left-0 right-0 z-50 
-        bg-white  /* SOLID on mobile */
-        md:bg-white/70 md:backdrop-blur-xl /* transparent only on desktop */
-        border-b border-gray-200 shadow-lg
-      "
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* MAIN NAVBAR */}
-        <div className="flex justify-between items-center h-16 md:h-20">
-          
-          {/* Logo Section */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <motion.div 
-              whileHover={{ rotate: 360 }} 
-              transition={{ duration: 0.6 }} 
-              className="p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl shadow-md"
-            >
-              <Package className="w-7 h-7 text-white" />
-            </motion.div>
-
-            <span className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              ShopEase
-            </span>
+    <nav className="bg-white shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <ShoppingBag className="w-8 h-8 text-blue-600" />
+            <span className="text-2xl font-bold text-gray-800">ShopEase</span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="relative text-gray-700 font-medium py-2 group hover:text-blue-600 transition"
-              >
-                {link.name}
-                <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 scale-x-0 group-hover:scale-x-100 transition-transform" />
-              </Link>
-            ))}
+            <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Home
+            </Link>
+            <Link href="/products" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Products
+            </Link>
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
+              About
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Contact
+            </Link>
 
-            {/* Right User Items */}
-            <div className="flex items-center gap-4">
-
-              {/* LOGGED IN USER */}
-              {session ? (
-                <div className="relative">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    onClick={() => setShowDropdown(!showDropdown)}
-                    className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-full shadow-md hover:shadow-lg transition"
-                  >
-                    <User className="w-5 h-5" />
-                    <span className="truncate max-w-[120px]">{fullName}</span>
-                  </motion.button>
-
-                  {/* DROPDOWN */}
-                  <AnimatePresence>
-                    {showDropdown && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute right-0 mt-3 w-72 bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden z-50"
-                      >
-                        {/* Header */}
-                        <div className="p-5 border-b border-gray-200">
-                          <p className="text-sm text-gray-600">Welcome back,</p>
-                          <p className="text-xl font-bold text-gray-800 truncate">{fullName}</p>
-                          <p className="text-sm text-gray-500 mt-1">{session.user?.email}</p>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="py-3 text-black">
-                          <Link href="/add-product" className="flex items-center gap-4 px-6 py-3 hover:bg-gray-100">
-                            <PlusCircle className="w-5 h-5 text-blue-600" />
-                            <span>Add Product</span>
-                          </Link>
-
-                          <Link href="/manage-products" className="flex items-center gap-4 px-6 py-3 hover:bg-gray-100">
-                            <Package className="w-5 h-5 text-purple-600" />
-                            <span>Manage Products</span>
-                          </Link>
-
-                          <button
-                            onClick={() => signOut({ callbackUrl: '/' })}
-                            className="flex items-center gap-4 w-full px-6 py-3 text-red-600 hover:bg-red-50"
-                          >
-                            <LogOut className="w-5 h-5" />
-                            Logout
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <Link href="/login" className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition">
-                  Login
-                </Link>
+            {/* Cart Icon */}
+            <Link href="/cart" className="relative text-gray-700 hover:text-blue-600 transition-colors">
+              <ShoppingCart className="w-6 h-6" />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
               )}
-            </div>
+            </Link>
+
+            {/* Auth Section */}
+            {session ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  <User className="w-5 h-5" />
+                  <span>{session.user?.name || session.user?.email}</span>
+                </button>
+
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
+                    <div className="px-4 py-2 border-b">
+                      <p className="text-sm text-gray-500">Signed in as</p>
+                      <p className="text-sm font-semibold text-gray-800 truncate">
+                        {session.user?.email}
+                      </p>
+                    </div>
+                    <Link
+                      href="/add-product"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setShowDropdown(false)}
+                    >
+                      Add Product
+                    </Link>
+                    <Link
+                      href="/manage-products"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setShowDropdown(false)}
+                    >
+                      Manage Products
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setShowDropdown(false);
+                        signOut();
+                      }}
+                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
-          {/* Mobile Toggle */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsOpen(true)}
-            className="md:hidden p-3 rounded-full hover:bg-gray-100"
-          >
-            <Menu className="w-7 h-7 text-gray-800" />
-          </motion.button>
+          {/* Mobile Menu Button */}
+          <button onClick={toggleMenu} className="md:hidden text-black px-10">
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-      </div>
 
-      {/* MOBILE MENU */}
-      <AnimatePresence>
+        {/* Mobile Navigation */}
         {isOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 260 }}
-            className="fixed inset-0 bg-white text-gray-800 z-50 pt-24 px-8 md:hidden"
-          >
-            <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 p-3">
-              <X className="w-8 h-8 text-gray-800" />
-            </button>
+          <div className="md:hidden py-4 border-t">
+            <Link
+              href="/"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              Home
+            </Link>
+            <Link
+              href="/products"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              Products
+            </Link>
+            <Link
+              href="/about"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              Contact
+            </Link>
+            <Link
+              href="/cart"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              Cart {cartCount > 0 && `(${cartCount})`}
+            </Link>
 
-            <div className="flex flex-col space-y-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-2xl font-semibold border-b border-gray-300 pb-4"
-                >
-                  {link.name}
-                </Link>
-              ))}
-
-              {session ? (
-                <div className="pt-8 space-y-6 border-t border-gray-300">
-                  <p className="text-xl font-semibold">Hello, {fullName}</p>
-
-                  <Link href="/add-product" className="flex items-center gap-4 text-xl">
-                    <PlusCircle className="w-7 h-7 text-blue-600" /> Add Product
-                  </Link>
-
-                  <Link href="/manage-products" className="flex items-center gap-4 text-xl">
-                    <Package className="w-7 h-7 text-purple-600" /> Manage Products
-                  </Link>
-
-                  <button
-                    onClick={() => signOut({ callbackUrl: '/' })}
-                    className="flex items-center gap-4 text-red-600 text-xl"
-                  >
-                    <LogOut className="w-7 h-7" /> Logout
-                  </button>
+            {session ? (
+              <>
+                <div className="py-2 border-t mt-2">
+                  <p className="text-sm text-gray-500">Signed in as</p>
+                  <p className="text-sm font-semibold text-gray-800">
+                    {session.user?.email}
+                  </p>
                 </div>
-              ) : (
                 <Link
-                  href="/login"
-                  className="mt-12 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-full font-bold shadow-lg"
+                  href="/add-product"
+                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  onClick={toggleMenu}
                 >
-                  Login Now
+                  Add Product
                 </Link>
-              )}
-            </div>
-          </motion.div>
+                <Link
+                  href="/manage-products"
+                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  onClick={toggleMenu}
+                >
+                  Manage Products
+                </Link>
+                <button
+                  onClick={() => {
+                    toggleMenu();
+                    signOut();
+                  }}
+                  className="block w-full text-left py-2 text-red-600"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="block py-2 text-blue-600 font-semibold"
+                onClick={toggleMenu}
+              >
+                Login
+              </Link>
+            )}
+          </div>
         )}
-      </AnimatePresence>
-    </motion.nav>
+      </div>
+    </nav>
   );
 }

@@ -1,15 +1,18 @@
+
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { useCart } from '@/lib/ CartContext';
+
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [productId, setProductId] = useState(null);
+  const { addToCart } = useCart();
 
   // Unwrap params for Next.js 16
   useEffect(() => {
@@ -28,16 +31,22 @@ export default function ProductDetailPage({ params }) {
 
   const fetchProduct = async () => {
     try {
-      console.log('Fetching product ID:', productId);
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`);
-      console.log('Product data:', response.data);
       setProduct(response.data);
     } catch (error) {
       console.error('Error fetching product:', error);
-      toast.error('Product not found');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product);
+    router.push('/cart');
   };
 
   if (loading) {
@@ -108,20 +117,20 @@ export default function ProductDetailPage({ params }) {
 
           <div className="space-y-4">
             <button
-              onClick={() => toast.success('Added to cart!')}
+              onClick={handleAddToCart}
               className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               Add to Cart
             </button>
             <button 
-              onClick={() => toast.success('Proceeding to checkout!')}
+              onClick={handleBuyNow}
               className="w-full border-2 border-blue-600 text-blue-600 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
             >
               Buy Now
             </button>
           </div>
-{/* information */}
+
           <div className="mt-8 p-6 bg-gray-50 rounded-lg">
             <h3 className="font-semibold mb-2">Product Information</h3>
             <ul className="space-y-2 text-gray-600">
