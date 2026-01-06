@@ -1,31 +1,32 @@
+"use client";
 
-'use client';
-
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import toast from 'react-hot-toast';
-import { useCart } from '@/lib/ CartContext';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import toast from "react-hot-toast";
+import { useCart } from "@/lib/CartContext";
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } =
+    useCart();
   const { data: session } = useSession();
   const router = useRouter();
 
   const handleCheckout = () => {
     if (!session) {
-      toast.error('Please login to checkout');
-      router.push('/login');
+      toast.error("Please login to checkout");
+      router.push("/login");
       return;
     }
 
     if (cart.length === 0) {
-      toast.error('Your cart is empty');
+      toast.error("Your cart is empty");
       return;
     }
 
-    toast.success('Proceeding to checkout!');
+    toast.success("Proceeding to checkout!");
     // Here you would normally redirect to checkout page
     // router.push('/checkout');
   };
@@ -37,7 +38,7 @@ export default function CartPage() {
           <ShoppingBag className="w-24 h-24 mx-auto text-gray-300 mb-6" />
           <h1 className="text-3xl font-bold mb-4">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8">
-            Looks like you haven't added any products to your cart yet.
+            Looks like you haven’t added any products to your cart yet.
           </p>
           <Link
             href="/products"
@@ -64,13 +65,13 @@ export default function CartPage() {
                 className="flex items-center gap-4 p-6 border-b last:border-b-0"
               >
                 {/* Product Image */}
-                <img
-                  src={item.imageUrl}
+                <Image
+                  src={item.imageUrl || "https://via.placeholder.com/100"}
                   alt={item.title}
+                  width={96}
+                  height={96}
+                  unoptimized
                   className="w-24 h-24 object-cover rounded"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/100';
-                  }}
                 />
 
                 {/* Product Info */}
@@ -144,7 +145,9 @@ export default function CartPage() {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="font-semibold">${getCartTotal().toFixed(2)}</span>
+                <span className="font-semibold">
+                  ${getCartTotal().toFixed(2)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
@@ -157,7 +160,9 @@ export default function CartPage() {
               <div className="border-t pt-3">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span className="text-blue-600">${getCartTotal().toFixed(2)}</span>
+                  <span className="text-blue-600">
+                    ${getCartTotal().toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -174,7 +179,7 @@ export default function CartPage() {
               onClick={handleCheckout}
               className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-3"
             >
-              {session ? 'Proceed to Checkout' : 'Login to Checkout'}
+              {session ? "Proceed to Checkout" : "Login to Checkout"}
             </button>
 
             <Link

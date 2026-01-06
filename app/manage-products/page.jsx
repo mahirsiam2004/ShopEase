@@ -7,6 +7,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Eye, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ManageProductsPage() {
   const { data: session, status } = useSession();
@@ -101,9 +102,12 @@ export default function ManageProductsPage() {
                 {products.map((product) => (
                   <tr key={product._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      <img
-                        src={product.imageUrl}
+                      <Image
+                        src={product.imageUrl || 'https://via.placeholder.com/64'}
                         alt={product.title}
+                        width={64}
+                        height={64}
+                        unoptimized
                         className="w-16 h-16 object-cover rounded"
                       />
                     </td>
@@ -146,9 +150,12 @@ export default function ManageProductsPage() {
             {products.map((product) => (
               <div key={product._id} className="p-4">
                 <div className="flex gap-4">
-                  <img
-                    src={product.imageUrl}
+                  <Image
+                    src={product.imageUrl || 'https://via.placeholder.com/80'}
                     alt={product.title}
+                    width={80}
+                    height={80}
+                    unoptimized
                     className="w-20 h-20 object-cover rounded"
                   />
                   <div className="flex-1">

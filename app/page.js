@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingBag, Truck, Shield, HeadphonesIcon, Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
@@ -205,9 +206,12 @@ export default function Home() {
                 whileHover={{ y: -10 }}
               >
                 <Link href={`/products?category=${category.name.toLowerCase()}`} className="group relative block h-80 rounded-2xl overflow-hidden shadow-xl">
-                  <img
+                  <Image
                     src={category.image}
                     alt={category.name}
+                    width={800}
+                    height={800}
+                    unoptimized
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

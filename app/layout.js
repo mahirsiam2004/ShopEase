@@ -1,18 +1,18 @@
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import AuthProvider from "@/components/AuthProvider";
 
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import AuthProvider from '@/components/AuthProvider';
+import { Toaster } from "react-hot-toast";
+import { CartProvider } from "@/lib/CartContext";
+import { WishlistProvider } from "@/lib/WishlistContext";
 
-import { Toaster } from 'react-hot-toast';
-import { CartProvider } from '@/lib/ CartContext';
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'ShopEase - Your Modern E-Commerce Store',
-  description: 'Shop the latest products with great deals',
+  title: "ShopEase - Your Modern E-Commerce Store",
+  description: "Shop the latest products with great deals",
 };
 
 export default function RootLayout({ children }) {
@@ -21,12 +21,12 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <main className="min-h-screen">
-              {children}
-            </main>
-            <Footer />
-            <Toaster position="top-center" />
+            <WishlistProvider>
+              <Navbar />
+              <main className="min-h-screen">{children}</main>
+              <Footer />
+              <Toaster position="top-center" />
+            </WishlistProvider>
           </CartProvider>
         </AuthProvider>
       </body>

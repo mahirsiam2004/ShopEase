@@ -1,11 +1,11 @@
 // frontend/components/Navbar.js - UPDATED WITH CART
-'use client';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
-import { Menu, X, User, ShoppingBag, ShoppingCart } from 'lucide-react';
-import { useCart } from '@/lib/ CartContext';
-
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { Menu, X, User, ShoppingBag, ShoppingCart, Heart } from "lucide-react";
+import { useCart } from "@/lib/CartContext";
+import { useWishlist } from "@/lib/WishlistContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +13,8 @@ export default function Navbar() {
   const { data: session } = useSession();
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+  const { getWishlistCount } = useWishlist();
+  const wishlistCount = getWishlistCount();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -28,21 +30,49 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              href="/"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Home
             </Link>
-            <Link href="/products" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              href="/products"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Products
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              href="/about"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              href="/contact"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
               Contact
             </Link>
 
+            {/* Wishlist Icon */}
+            <Link
+              href="/wishlist"
+              className="relative text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              <Heart className="w-6 h-6" />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
+
             {/* Cart Icon */}
-            <Link href="/cart" className="relative text-gray-700 hover:text-blue-600 transition-colors">
+            <Link
+              href="/cart"
+              className="relative text-gray-700 hover:text-blue-600 transition-colors"
+            >
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -142,6 +172,13 @@ export default function Navbar() {
               onClick={toggleMenu}
             >
               Contact
+            </Link>
+            <Link
+              href="/wishlist"
+              className="block py-2 text-gray-700 hover:text-blue-600"
+              onClick={toggleMenu}
+            >
+              Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
             </Link>
             <Link
               href="/cart"

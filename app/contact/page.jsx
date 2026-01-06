@@ -1,63 +1,73 @@
+"use client";
 
-'use client';
-
-import { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import { motion } from 'framer-motion';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Clock, 
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Clock,
   Sparkles,
-  CheckCircle
-} from 'lucide-react';
+  CheckCircle,
+} from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    toast.custom((t) => (
-      <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.9 }}
-        animate={{ opacity: t.visible ? 1 : 0, y: t.visible ? 0 : 50, scale: t.visible ? 1 : 0.9 }}
-        className="bg-white rounded-2xl shadow-2xl p-6 border border-green-100 flex items-center gap-4 max-w-sm"
-      >
-        <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle className="w-8 h-8 text-green-600" />
-        </div>
-        <div>
-          <p className="font-bold text-gray-800">Message Sent Successfully!</p>
-          <p className="text-sm text-gray-600">We'll reply to you soon at {formData.email}</p>
-        </div>
-      </motion.div>
-    ), {
-      duration: 5000,
-      position: 'top-center',
-    });
 
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    toast.custom(
+      (t) => (
+        <motion.div
+          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          animate={{
+            opacity: t.visible ? 1 : 0,
+            y: t.visible ? 0 : 50,
+            scale: t.visible ? 1 : 0.9,
+          }}
+          className="bg-white rounded-2xl shadow-2xl p-6 border border-green-100 flex items-center gap-4 max-w-sm"
+        >
+          <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-8 h-8 text-green-600" />
+          </div>
+          <div>
+            <p className="font-bold text-gray-800">
+              Message Sent Successfully!
+            </p>
+            <p className="text-sm text-gray-600">
+              We’ll reply to you soon at {formData.email}
+            </p>
+          </div>
+        </motion.div>
+      ),
+      {
+        duration: 5000,
+        position: "top-center",
+      }
+    );
+
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
     <>
       <Toaster />
-      
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white py-24 overflow-hidden">
         <div className="absolute inset-0 bg-black/40 backdrop-blur-3xl"></div>
@@ -70,17 +80,17 @@ export default function ContactPage() {
               className="absolute w-4 h-4 bg-white rounded-full opacity-20"
               animate={{
                 y: [0, -150, 0],
-                x: [0, Math.random() * 100 - 50, 0],
-                opacity: [0.1, 0.6, 0.1]
+                x: [0, i % 2 === 0 ? 40 : -40, 0],
+                opacity: [0.1, 0.6, 0.1],
               }}
               transition={{
                 duration: 12 + i * 2,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${10 + i * 10}%`,
-                top: "50%"
+                top: "50%",
               }}
             />
           ))}
@@ -100,7 +110,8 @@ export default function ContactPage() {
             transition={{ delay: 0.3 }}
             className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto"
           >
-            Have a question? We’re here 24/7 to help you. Your satisfaction is our priority.
+            Have a question? We’re here 24/7 to help you. Your satisfaction is
+            our priority.
           </motion.p>
         </div>
       </section>
@@ -108,7 +119,6 @@ export default function ContactPage() {
       <section className="py-20 bg-gray-50 text-gray-700">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-12">
-
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -123,7 +133,9 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <motion.div whileHover={{ y: -2 }}>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Your Name</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Your Name
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -136,7 +148,9 @@ export default function ContactPage() {
                   </motion.div>
 
                   <motion.div whileHover={{ y: -2 }}>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -150,7 +164,9 @@ export default function ContactPage() {
                 </div>
 
                 <motion.div whileHover={{ y: -2 }}>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Subject
+                  </label>
                   <input
                     type="text"
                     name="subject"
@@ -163,7 +179,9 @@ export default function ContactPage() {
                 </motion.div>
 
                 <motion.div whileHover={{ y: -2 }}>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Your Message</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Your Message
+                  </label>
                   <textarea
                     name="message"
                     value={formData.message}
@@ -199,8 +217,13 @@ export default function ContactPage() {
                   <Mail className="w-8 h-8" />
                   Email Us
                 </h3>
-                <p className="text-lg opacity-90 mb-2">We usually reply within 2 hours</p>
-                <a href="mailto:mahirsiam2004@gmail.com" className="text-2xl font-bold hover:underline">
+                <p className="text-lg opacity-90 mb-2">
+                  We usually reply within 2 hours
+                </p>
+                <a
+                  href="mailto:mahirsiam2004@gmail.com"
+                  className="text-2xl font-bold hover:underline"
+                >
                   mahirsiam2004@gmail.com
                 </a>
               </motion.div>
@@ -216,8 +239,12 @@ export default function ContactPage() {
                   <Phone className="w-8 h-8 text-blue-600" />
                   Call or WhatsApp
                 </h3>
-                <p className="text-3xl font-bold text-gray-800">+880 1234 567890</p>
-                <p className="text-gray-600 mt-2">Available 9 AM – 10 PM (GMT+6)</p>
+                <p className="text-3xl font-bold text-gray-800">
+                  +880 1234 567890
+                </p>
+                <p className="text-gray-600 mt-2">
+                  Available 9 AM – 10 PM (GMT+6)
+                </p>
               </motion.div>
 
               <motion.div
@@ -232,9 +259,15 @@ export default function ContactPage() {
                   Business Hours
                 </h3>
                 <div className="space-y-2 text-lg">
-                  <p>Monday – Friday: <strong>9:00 AM – 10:00 PM</strong></p>
-                  <p>Saturday: <strong>10:00 AM – 8:00 PM</strong></p>
-                  <p>Sunday: <strong>11:00 AM – 6:00 PM</strong></p>
+                  <p>
+                    Monday – Friday: <strong>9:00 AM – 10:00 PM</strong>
+                  </p>
+                  <p>
+                    Saturday: <strong>10:00 AM – 8:00 PM</strong>
+                  </p>
+                  <p>
+                    Sunday: <strong>11:00 AM – 6:00 PM</strong>
+                  </p>
                 </div>
               </motion.div>
 
@@ -246,8 +279,12 @@ export default function ContactPage() {
               >
                 <Sparkles className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
                 <p className="text-xl font-bold">Average Response Time</p>
-                <p className="text-5xl font-extrabold mt-4 text-yellow-400">Under 2 Hours</p>
-                <p className="mt-2 opacity-80">98% of messages answered in &lt; 2h</p>
+                <p className="text-5xl font-extrabold mt-4 text-yellow-400">
+                  Under 2 Hours
+                </p>
+                <p className="mt-2 opacity-80">
+                  98% of messages answered in &lt; 2h
+                </p>
               </motion.div>
             </div>
           </div>
@@ -262,9 +299,11 @@ export default function ContactPage() {
             whileInView={{ scale: 1 }}
             className="text-4xl md:text-5xl font-extrabold mb-6"
           >
-            We Can't Wait to Hear From You!
+            We Can’t Wait to Hear From You!
           </motion.h2>
-          <p className="text-xl opacity-90 mb-8">Your questions matter. Drop us a line anytime.</p>
+          <p className="text-xl opacity-90 mb-8">
+            Your questions matter. Drop us a line anytime.
+          </p>
           <motion.a
             whileHover={{ scale: 1.05 }}
             href="mailto:mahirsiam2004@gmail.com"
