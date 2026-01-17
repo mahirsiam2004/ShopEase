@@ -16,14 +16,22 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Demo login - accept any email/password
-        if (credentials?.email && credentials?.password) {
-          return {
-            id: "1",
-            name: credentials.email.split('@')[0] || "User", // ← This shows in navbar
-            email: credentials.email,
-          };
+        // Mock Login Implementation
+        const mockUser = {
+          id: "1",
+          name: "Admin User",
+          email: "admin@example.com",
+          role: "admin"
+        };
+
+        if (
+          credentials?.email === "admin@example.com" &&
+          credentials?.password === "password123"
+        ) {
+          return mockUser;
         }
+
+        // Return null if validation fails
         return null;
       }
     })

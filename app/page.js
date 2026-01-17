@@ -58,7 +58,7 @@ export default function Home() {
       {/* Hero Section - Parallax & Animated */}
       <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white min-h-screen flex items-center">
         <div className="absolute inset-0 bg-black opacity-30"></div>
-        
+
         {/* Floating particles background */}
         <div className="absolute inset-0">
           {[...Array(6)].map((_, i) => (
@@ -231,10 +231,116 @@ export default function Home() {
         </div>
       </section>
 
+      {/* NEW: Trending Products Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl font-bold text-center mb-16"
+          >
+            Trending <span className="text-purple-600">Now</span>
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[1, 2, 3].map((item) => (
+              <motion.div
+                key={item}
+                whileHover={{ y: -10 }}
+                className="bg-gray-50 rounded-2xl overflow-hidden shadow-lg border border-gray-100"
+              >
+                <div className="h-64 bg-gray-200 relative">
+                  <Image
+                    src={`https://images.unsplash.com/photo-${item === 1 ? '1505740420928-5e560c06d30e' : item === 2 ? '1523275335684-37898b6baf30' : '1542291026-7eec264c27ff'}?w=800&q=80`}
+                    alt="Product"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  <span className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">Hot</span>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2 text-gray-800">Premium {item === 1 ? 'Headphones' : item === 2 ? 'Watch' : 'Sneakers'}</h3>
+                  <div className="flex justify-between items-center">
+                    <span className="text-2xl font-bold text-blue-600">$129.99</span>
+                    <button className="text-purple-600 font-semibold hover:text-purple-700">Add to Cart</button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Testimonials Section */}
+      <section className="py-24 bg-gradient-to-b from-blue-50 to-white">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800"
+          >
+            What Our <span className="text-blue-600">Customers Say</span>
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
+            {[
+              { name: "Sarah J.", role: "Fashion Blogger", text: "The quality of the clothes is just amazing. I am in love with the summer collection!" },
+              { name: "Michael C.", role: "Tech Enthusiast", text: "Fastest delivery I have ever experienced. The gadgets are authentic and premium." },
+              { name: "Jessica M.", role: "Interior Designer", text: "Beautiful home decor items. My living room looks completely different now. Highly recommend!" }
+            ].map((review, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.03 }}
+                className="bg-white p-8 rounded-2xl shadow-xl border border-blue-100"
+              >
+                <div className="flex items-center gap-1 mb-4 text-yellow-400">
+                  {[...Array(5)].map((_, i) => <Sparkles key={i} className="w-5 h-5 fill-current" />)}
+                </div>
+                <p className="text-gray-600 mb-6 italic">"{review.text}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {review.name[0]}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-800">{review.name}</h4>
+                    <span className="text-sm text-gray-500">{review.role}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Newsletter Section */}
+      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            className="bg-white/10 backdrop-blur-lg p-10 rounded-3xl border border-white/20"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Stay Updated & Get <span className="text-yellow-400">10% OFF</span></h2>
+            <p className="text-gray-300 mb-8 text-lg">Subscribe to our newsletter for exclusive deals, new arrivals, and style tips directly to your inbox.</p>
+            <form className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 px-6 py-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              />
+              <button type="button" className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/30">
+                Subscribe
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-700 text-white relative overflow-hidden">
         <motion.div
-          animate={{ 
+          animate={{
             backgroundPosition: ["0% 0%", "100% 100%"],
           }}
           transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
